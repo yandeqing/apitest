@@ -1,3 +1,0 @@
-2019-01-04 11:29:31,998 - root - INFO - ********TEST START********
-2019-01-04 11:29:36,929 - root - ERROR - 'super' object has no attribute '__getattr__'
-2019-01-04 11:29:36,929 - root - INFO - *********TEST END*********

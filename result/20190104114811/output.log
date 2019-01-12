@@ -1,4 +1,0 @@
-2019-01-04 11:48:12,246 - root - INFO - ********TEST START********
-2019-01-04 11:48:15,495 - root - ERROR - 'super' object has no attribute '__getattr__'
-2019-01-04 11:48:15,495 - root - INFO - *********TEST END*********
-2019-01-04 11:48:21,427 - root - ERROR - (535, b'Error: authentication failed')
