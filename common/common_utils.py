@@ -3,14 +3,13 @@ import readConfig as readConfig
 import os
 from xlrd import open_workbook
 from xml.etree import ElementTree as ElementTree
-from common import configHttp as configHttp
-from common.Log import MyLog as Log
 import json
+
+from common.LogUtil import MyLog
 
 localReadConfig = readConfig.ReadConfig()
 proDir = readConfig.proDir
-localConfigHttp = configHttp.ConfigHttp()
-log = Log.get_log()
+log = MyLog.get_log()
 logger = log.get_logger()
 
 caseNo = 0
@@ -22,7 +21,7 @@ def get_visitor_token():
     :return:
     """
     host = localReadConfig.get_http("BASEURL")
-    response = requests.get(host+"/v2/User/Token/generate")
+    response = requests.get(host + "/v2/User/Token/generate")
     info = response.json()
     token = info.get("info")
     logger.debug("Create token:%s" % (token))
@@ -60,9 +59,12 @@ def show_return_msg(response):
     """
     url = response.url
     msg = response.text
-    print("\n请求地址："+url)
+    print("\n请求地址：" + url)
     # 可以显示中文
-    print("\n请求返回值："+'\n'+json.dumps(json.loads(msg), ensure_ascii=False, sort_keys=True, indent=4))
+    print("\n请求返回值：" + '\n' + json.dumps(json.loads(msg), ensure_ascii=False, sort_keys=True,
+                                         indent=4))
+
+
 # ****************************** read testCase excel ********************************
 
 
@@ -84,6 +86,7 @@ def get_xls(xls_name, sheet_name):
         if sheet.row_values(i)[0] != u'case_name':
             cls.append(sheet.row_values(i))
     return cls
+
 
 # ****************************** read SQL xml ********************************
 database = {}
@@ -136,6 +139,8 @@ def get_sql(database_name, table_name, sql_id):
     db = get_xml_dict(database_name, table_name)
     sql = db.get(sql_id)
     return sql
+
+
 # ****************************** read interfaceURL xml ********************************
 
 
@@ -156,6 +161,7 @@ def get_url_from_xml(name):
 
     url = '/v2/' + '/'.join(url_list)
     return url
+
 
 if __name__ == "__main__":
     print(get_xls("login"))

@@ -4,4 +4,4 @@ result
 .idea
 testCase/__pycache__/
 venv
-config.ini
+#config.ini
