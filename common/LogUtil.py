@@ -17,14 +17,18 @@ class Log:
         logPath = os.path.join(resultPath, str(datetime.now().strftime("%Y%m%d%H%M%S")))
         if not os.path.exists(logPath):
             os.mkdir(logPath)
+        # defined config
+        logging.basicConfig(
+            format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s: %(message)s',
+            level=logging.DEBUG)
         self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
 
         # defined handler
         handler = logging.FileHandler(os.path.join(logPath, "output.log"))
         # defined formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
+        handler.setLevel(logging.DEBUG)
         self.logger.addHandler(handler)
 
     def get_logger(self):

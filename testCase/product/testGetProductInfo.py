@@ -1,11 +1,9 @@
 import unittest
 import paramunittest
-from common import common
-from common.Log import MyLog
 import readConfig as readConfig
-from common import configHttp as configHttp
+from common import configHttp as configHttp, common_utils
 
-productInfo_xls = common.get_xls("productCase.xlsx", "getProductInfo")
+productInfo_xls = common_utils.get_xls("productCase.xlsx", "getProductInfo")
 localReadConfig = readConfig.ReadConfig()
 localConfigHttp = configHttp.ConfigHttp()
 

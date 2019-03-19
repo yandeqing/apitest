@@ -1,6 +1,6 @@
 import pymysql
 import readConfig as readConfig
-from common.Log import MyLog as Log
+from common.LogUtil import MyLog
 
 localReadConfig = readConfig.ReadConfig()
 
@@ -21,7 +21,7 @@ class MyDB:
     }
 
     def __init__(self):
-        self.log = Log.get_log()
+        self.log = MyLog.get_log()
         self.logger = self.log.get_logger()
         self.db = None
         self.cursor = None

@@ -59,9 +59,9 @@ def show_return_msg(response):
     """
     url = response.url
     msg = response.text
-    print("\n请求地址：" + url)
+    log.info("\n请求地址：" + url)
     # 可以显示中文
-    print("\n请求返回值：" + '\n' + json.dumps(json.loads(msg), ensure_ascii=False, sort_keys=True,
+    log.info("\n请求返回值：" + '\n' + json.dumps(json.loads(msg), ensure_ascii=False, sort_keys=True,
                                          indent=4))
 
 
@@ -159,7 +159,7 @@ def get_url_from_xml(name):
             for c in u.getchildren():
                 url_list.append(c.text)
 
-    url = '/v2/' + '/'.join(url_list)
+    url = '/' + '/'.join(url_list)
     return url
 
 

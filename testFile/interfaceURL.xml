@@ -7,9 +7,9 @@
     </url>
 
     <url name="login">
-        <group>User</group>
-        <module>Member</module>
-        <action>loginCommon</action>
+        <group>biz</group>
+        <module>users</module>
+        <action>login</action>
     </url>
 
     <url name="registerQuick">

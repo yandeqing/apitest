@@ -8,7 +8,8 @@ from email.mime.image import MIMEImage
 from datetime import datetime
 import threading
 import readConfig as readConfig
-from common.Log import MyLog
+from common.LogUtil import MyLog
+
 import zipfile
 import glob
 

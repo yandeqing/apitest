@@ -1,11 +1,14 @@
 import unittest
 import paramunittest
 import readConfig as readConfig
-from common import configHttp as ConfigHttp, common_utils
+from common import common_utils
+
+from common.LogUtil import MyLog
+from common.configHttp import ConfigHttp
 
 login_xls = common_utils.get_xls("userCase.xlsx", "login")
 localReadConfig = readConfig.ReadConfig()
-configHttp = ConfigHttp.ConfigHttp()
+configHttp = ConfigHttp()
 info = {}
 
 
@@ -47,9 +50,9 @@ class Login(unittest.TestCase):
 
         :return:
         """
-        self.log = Log.MyLog.get_log()
+        self.log = MyLog.get_log()
         self.logger = self.log.get_logger()
-        print(self.case_name + "测试开始前准备")
+        self.logger.info("========"+self.case_name + "开始=======")
 
     def testLogin(self):
         """
@@ -57,9 +60,9 @@ class Login(unittest.TestCase):
         :return:
         """
         # set url
-        self.url = common.get_url_from_xml('login')
+        self.url = common_utils.get_url_from_xml('login')
         configHttp.set_url(self.url)
-        print("第一步：设置url  " + self.url)
+        self.logger.info("第一步：设置url  " + self.url)
 
         # get visitor token
         if self.token == '0':
@@ -70,38 +73,36 @@ class Login(unittest.TestCase):
         # set headers
         header = {"token": str(token)}
         configHttp.set_headers(header)
-        print("第二步：设置header(token等)")
+        self.logger.info("第二步：header==>" + str(header))
 
         # set params
         data = {"email": self.email, "password": self.password}
         configHttp.set_data(data)
-        print("第三步：设置发送请求的参数")
+        self.logger.info("第三步：参数==>" + str(data))
 
         # test interface
         self.return_json = configHttp.post()
         method = str(self.return_json.request)[int(str(self.return_json.request).find('[')) + 1:int(
             str(self.return_json.request).find(']'))]
-        print("第四步：发送请求\n\t\t请求方法：" + method)
-
+        self.logger.info("第四步：发送" + method + "请求方法：")
         # check result
+        self.logger.info("第五步：返回==>" + str(self.return_json.json()))
         self.checkResult()
-        print("第五步：检查结果")
 
     def tearDown(self):
         """
-
+        执行测试代码后的数据存储
         :return:
         """
         info = self.info
         if info['code'] == 0:
-            # get uer token
-            token_u = common.get_value_from_return_json(info, 'member', 'token')
             # set user token to config file
-            localReadConfig.set_headers("TOKEN_U", token_u)
+            localReadConfig.set_headers("TOKEN_U", "1212")
         else:
             pass
-        self.log.build_case_line(self.case_name, self.info['code'], self.info['msg'])
-        print("测试结束，输出log完结\n\n")
+        self.logger.info("==============测试结束=============")
+        self.log.build_case_line(self.case_name, self.info['code'],self.info['msg'])
+        self.logger.info("tearDown")
 
     def checkResult(self):
         """
@@ -109,15 +110,18 @@ class Login(unittest.TestCase):
         :return:
         """
         self.info = self.return_json.json()
-        # show return message
-        common.show_return_msg(self.return_json)
+        info1 = self.info
+        self.logger.info("code==>"+info1['code'])
+        self.logger.info("msg==>"+info1['msg'])
+        self.logger.info("result==>"+info1['result'])
 
         if self.result == '0':
-            email = common.get_value_from_return_json(self.info, 'member', 'email')
             self.assertEqual(self.info['code'], self.code)
             self.assertEqual(self.info['msg'], self.msg)
+            email = common_utils.get_value_from_return_json(self.info, 'member', 'email')
             self.assertEqual(email, self.email)
 
         if self.result == '1':
             self.assertEqual(self.info['code'], self.code)
             self.assertEqual(self.info['msg'], self.msg)
+        self.logger.info("checkResult")

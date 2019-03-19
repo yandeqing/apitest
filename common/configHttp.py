@@ -1,7 +1,6 @@
 import requests
 import readConfig as readConfig
-from common.Log import MyLog as Log
-import json
+from common.LogUtil import  MyLog
 
 localReadConfig = readConfig.ReadConfig()
 
@@ -14,7 +13,7 @@ class ConfigHttp:
         host = localReadConfig.get_http("baseurl")
         port = localReadConfig.get_http("port")
         timeout = localReadConfig.get_http("timeout")
-        self.log = Log.get_log()
+        self.log = MyLog.get_log()
         self.logger = self.log.get_logger()
         self.headers = {}
         self.params = {}

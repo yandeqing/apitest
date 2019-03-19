@@ -2,8 +2,8 @@ import os
 import unittest
 
 from common.HTMLTestRunner import HTMLTestRunner
-from common.Log import MyLog as Log
 import readConfig as readConfig
+from common.LogUtil import MyLog
 from common.configEmail import MyEmail
 
 localReadConfig = readConfig.ReadConfig()
@@ -12,7 +12,7 @@ localReadConfig = readConfig.ReadConfig()
 class AllTest:
     def __init__(self):
         global log, logger, resultPath, on_off
-        log = Log.get_log()
+        log = MyLog.get_log()
         logger = log.get_logger()
         resultPath = log.get_report_path()
         on_off = localReadConfig.get_email("on_off")
@@ -44,8 +44,9 @@ class AllTest:
         suite_module = []
 
         for case in self.caseList:
+            logger.info("要执行的case==>" + case)
             case_name = case.split("/")[-1]
-            print(case_name+".py")
+            logger.info("要执行的case==>"+case_name+".py")
             discover = unittest.defaultTestLoader.discover(self.caseFile, pattern=case_name + '.py', top_level_dir=None)
             suite_module.append(discover)
 

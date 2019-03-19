@@ -1,14 +1,15 @@
 import unittest
 import paramunittest
+
+import common
 import readConfig as ReadConfig
-from common.Log import MyLog
-from common import common
-from common import configHttp
+from common import configHttp, common_utils
 from common import businessCommon
+from common.LogUtil import MyLog
 
 localReadConfig = ReadConfig.ReadConfig()
 localConfigHttp = configHttp.ConfigHttp()
-localLogout_xls = common.get_xls("userCase.xlsx", "logout")
+localLogout_xls = common_utils.get_xls("userCase.xlsx", "logout")
 
 
 @paramunittest.parametrized(*localLogout_xls)
