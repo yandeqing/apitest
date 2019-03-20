@@ -2,12 +2,10 @@ import os
 import unittest
 
 from common.HTMLTestRunner import HTMLTestRunner
-import readConfig as readConfig
 from common.LogUtil import MyLog
 from common.configEmail import MyEmail
-
-localReadConfig = readConfig.ReadConfig()
-
+import readConfig
+localReadConfig= readConfig.ReadConfig()
 
 class AllTest:
     def __init__(self):
