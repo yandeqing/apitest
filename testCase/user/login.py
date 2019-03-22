@@ -1,3 +1,4 @@
+import json
 import unittest
 import paramunittest
 
@@ -37,6 +38,9 @@ class Login(unittest.TestCase):
         self.msg = str(msg)
         self.return_json = None
         self.info = None
+        config = ReadConfig()
+        config.set_headers("token", '')
+        config.set_headers("secret", '')
 
     def description(self):
         """
@@ -52,7 +56,10 @@ class Login(unittest.TestCase):
         """
         self.log = MyLog.get_log()
         self.logger = self.log.get_logger()
-        self.logger.info("========" + self.case_name + "开始=======")
+        self.logger.info("========开始执行" + self.case_name + "用例=======")
+        config = ReadConfig()
+        config.set_headers("token", '')
+        config.set_headers("secret", '')
 
     def testLogin(self):
         """
@@ -62,31 +69,35 @@ class Login(unittest.TestCase):
         # set url
         self.url = common_utils.get_url_from_xml('login')
         configHttp.set_url(self.url)
-        self.logger.info("第一步：设置url  " + configHttp.url)
-
+        self.logger.info("step1：设置url  " + configHttp.url)
 
         # set params
         data = {"account": self.account, "password": self.password, "source": "app"}
         configHttp.set_data(data)
-        self.logger.info("第二步：参数==>" + str(data))
+        self.logger.info("step2：设置参数==>" + json.dumps(data, ensure_ascii=False))
 
         # get authorization
-        authorization = HeadConfig.get_authorization(configHttp, self.method)
+        timestamp = str(HeadConfig.get_timestamp())
+        authorization = HeadConfig.get_authorization(configHttp, self.method, timestamp)
         # set headers
         header = {"Authorization": authorization,
                   "Terminal": "device_platform=android;app_version=v5.1.0;" +
                               "device_version=7.1.1;device_model=OPPO R11s",
                   "User-Agent": "python_request/OPPO/Android7.1.1/OPPO R11s/app_intversion102516"}
         configHttp.set_headers(header)
-        self.logger.info("第三步：header==>" + str(header))
-
+        self.logger.info("step3：设置header==>" + json.dumps(header, ensure_ascii=False))
         # test interface
-        self.return_json = configHttp.post()
+        if self.method == 'post':
+            self.return_json = configHttp.postWithJson()
+        elif self.method == 'get':
+            self.return_json = configHttp.get()
+
         method = str(self.return_json.request)[int(str(self.return_json.request).find('[')) + 1:int(
             str(self.return_json.request).find(']'))]
-        self.logger.info("第四步：发送" + method + "请求方法：")
+
+        self.logger.info("step4：发送" + method + "请求方法：")
         # check result
-        self.logger.info("第五步：返回==>" + str(self.return_json.json()))
+        self.logger.info("step5：返回==>" + json.dumps(self.return_json.json(), ensure_ascii=False))
         self.checkResult()
 
     def tearDown(self):
@@ -97,24 +108,25 @@ class Login(unittest.TestCase):
         info = self.info
         if info['code'] == 0:
             # set user token to config file
-            config = ReadConfig.Config()
-            config.set_headers("TOKEN_U", "1212")
+            config = ReadConfig()
+            token = info['result']['token']
+            secret = info['result']['secret']
+            config.set_headers("token", token)
+            config.set_headers("secret", secret)
+            self.logger.info("step7：执行完毕，保存下一步测试需要用到的数据")
         else:
             pass
-        # self.log.build_case_line(self.case_name, self.info['code'],self.info['msg'])
-        self.logger.info("tearDown end")
-        self.logger.info("==============测试结束=============")
+        self.logger.info("========执行" + self.case_name + "用例结束=======")
 
     def checkResult(self):
+        self.logger.info("step6：校验结果")
         """
         check test result
         :return:
         """
-        self.logger.info("checkResult start")
         self.info = self.return_json.json()
         if self.code == '0':
             self.assertEqual(self.info['code'], self.code)
         else:
             self.assertEqual(self.info['code'], self.code)
             self.assertEqual(self.info['msg'], self.msg)
-        self.logger.info("checkResult end")

@@ -38,6 +38,7 @@ class ReadConfig:
         self.cf.set("HEADERS", name, value)
         with open(configPath, 'w+') as f:
             self.cf.write(f)
+            f.close()
 
     def get_url(self, name):
         value = self.cf.get("URL", name)

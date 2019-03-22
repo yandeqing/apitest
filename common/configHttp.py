@@ -1,3 +1,5 @@
+import json
+
 import requests
 import readConfig as readConfig
 from common.LogUtil import  MyLog
@@ -19,16 +21,18 @@ class ConfigHttp:
         self.params = {}
         self.data = {}
         self.url = None
+        self.path = None
         self.files = {}
         self.state = 0
 
-    def set_url(self, url):
+    def set_url(self, path):
         """
         set url
         :param: interface url
         :return:
         """
-        self.url = scheme + '://' + host + url
+        self.path=path
+        self.url = scheme + '://' + host + "/"+path
 
     def set_headers(self, header):
         """

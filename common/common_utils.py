@@ -62,7 +62,7 @@ def show_return_msg(response):
     log.info("\n请求地址：" + url)
     # 可以显示中文
     log.info("\n请求返回值：" + '\n' + json.dumps(json.loads(msg), ensure_ascii=False, sort_keys=True,
-                                         indent=4))
+                                            indent=4))
 
 
 # ****************************** read testCase excel ********************************
@@ -159,7 +159,7 @@ def get_url_from_xml(name):
             for c in u.getchildren():
                 url_list.append(c.text)
 
-    url = '/' + '/'.join(url_list)
+    url = '/'.join(url_list)
     return url
 
 

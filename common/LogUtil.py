@@ -20,7 +20,7 @@ class Log:
         # defined config
         logging.basicConfig(
             format='%(asctime)s-%(filename)s[line:%(lineno)d]-%(levelname)s: %(message)s',
-            level=logging.DEBUG)
+            level=logging.INFO)
         self.logger = logging.getLogger()
 
         # defined handler
@@ -28,7 +28,7 @@ class Log:
         # defined formatter
         formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
-        handler.setLevel(logging.DEBUG)
+        handler.setLevel(logging.INFO)
         self.logger.addHandler(handler)
 
     def get_logger(self):
