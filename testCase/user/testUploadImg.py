@@ -2,12 +2,11 @@ import os
 import unittest
 import paramunittest
 import readConfig as readConfig
-from common import common
-from common import configHttp
+from common import configHttp, common_utils
 from common import businessCommon
-from common.Log import MyLog
+from common.LogUtil import MyLog
 
-localUploadImg_xls = common.get_xls("userCase.xlsx", "uploadImg")
+localUploadImg_xls = common_utils.get_xls("userCase.xlsx", "uploadImg")
 localReadConfig = readConfig.ReadConfig()
 localConfigHttp = configHttp.ConfigHttp()
 
@@ -61,7 +60,7 @@ class UploadImg(unittest.TestCase):
         :return:
         """
         # set url
-        self.url = common.get_url_from_xml('uploadImg')
+        self.url = common_utils.get_url_from_xml('uploadImg')
         localConfigHttp.set_url(self.url)
 
         # set header
@@ -102,7 +101,7 @@ class UploadImg(unittest.TestCase):
         :return:
         """
         self.info = self.response.json()
-        common.show_return_msg(self.response)
+        common_utils.show_return_msg(self.response)
 
         if self.result == '0':
             if self.whole == '1':
