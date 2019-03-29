@@ -113,6 +113,12 @@ class Login(unittest.TestCase):
             secret = info['result']['secret']
             config.set_headers("token", token)
             config.set_headers("secret", secret)
+
+            userlogin = common_utils.get_jsonfrom_file("../../userlogin.json")
+            config.set_headers("token", userlogin['token'])
+            config.set_headers("secret", userlogin['secret'])
+            config.set_headers("uid", userlogin['uid'])
+
             self.logger.info("step7：执行完毕，保存下一步测试需要用到的数据")
         else:
             pass

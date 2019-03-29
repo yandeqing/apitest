@@ -163,6 +163,15 @@ def get_url_from_xml(name):
     return url
 
 
+def get_jsonfrom_file(name):
+    with open(name, 'r') as load_f:
+        load_dict = json.load(load_f)
+    return load_dict
+
+
 if __name__ == "__main__":
-    print(get_xls("login"))
-    set_visitor_token_to_config()
+    file = get_jsonfrom_file("../userlogin.json")
+
+    print(file['token'])
+    print(file['secret'])
+    print(file['uid'])
