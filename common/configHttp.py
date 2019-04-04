@@ -57,6 +57,17 @@ class ConfigHttp:
         :return:
         """
         self.data = data
+        # get authorization
+        from common.head_config import HeadConfig
+        timestamp = str(HeadConfig.get_timestamp())
+        authorization = HeadConfig.get_authorization(self, "post", timestamp)
+        # set headers
+        header = {"Authorization": authorization,
+                  "Terminal": "device_platform=android;app_version=v5.1.0;" +
+                              "device_version=7.1.1;device_model=OPPO R11s",
+                  "User-Agent": "python_request/OPPO/Android7.1.1/OPPO R11s/app_intversion102516"}
+        self.set_headers(header)
+
 
     def set_files(self, filename):
         """

@@ -45,10 +45,13 @@ def get_value_from_return_json(json, name1, name2):
     :param name2:
     :return:
     """
-    info = json['info']
-    group = info[name1]
-    value = group[name2]
-    return value
+    try:
+        group = json[name1]
+        value = group[name2]
+        return value
+    except Exception as e:
+        print(e)
+    return None
 
 
 def show_return_msg(response):

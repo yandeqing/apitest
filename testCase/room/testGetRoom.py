@@ -1,9 +1,10 @@
 import unittest
 import paramunittest
 import readConfig as readConfig
-from common import configHttp as configHttp, common_utils
+from common import common_utils, configHttp
+from common.LogUtil import MyLog
 
-productInfo_xls = common_utils.get_xls("productCase.xlsx", "getProductInfo")
+productInfo_xls = common_utils.get_xls("roomCase.xlsx", "getMyRoom")
 localReadConfig = readConfig.ReadConfig()
 localConfigHttp = configHttp.ConfigHttp()
 
@@ -47,13 +48,13 @@ class ProductInfo(unittest.TestCase):
         self.log = MyLog.get_log()
         self.logger = self.log.get_logger()
 
-    def testGetProductInfo(self):
+    def testGetRoom(self):
         """
         test body
         :return:
         """
         # set uel
-        self.url = common.get_url_from_xml('productInfo')
+        self.url = common_utils.get_url_from_xml('productInfo')
         localConfigHttp.set_url(self.url)
         # set params
         if self.goodsId == '' or self.goodsId is None:
@@ -84,12 +85,12 @@ class ProductInfo(unittest.TestCase):
 
     def checkResult(self):
         self.info = self.response.json()
-        common.show_return_msg(self.response)
+        common_utils.show_return_msg(self.response)
 
         if self.result == '0':
             self.assertEqual(self.info['code'], self.code)
             self.assertEqual(self.info['msg'], self.msg)
-            goods_id = common.get_value_from_return_json(self.info, "Product", "goods_id")
+            goods_id = common_utils.get_value_from_return_json(self.info, "Product", "goods_id")
             self.assertEqual(goods_id, self.goodsId)
         if self.result == '1':
             self.assertEqual(self.info['code'], self.info['code'])

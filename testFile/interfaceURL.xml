@@ -11,6 +11,12 @@
         <module>users</module>
         <action>login</action>
     </url>
+    <url name="get_my_room">
+        <group>client/v4</group>
+        <module>rooms</module>
+        <uid>{uid}</uid>
+        <action>my</action>
+    </url>
 
     <url name="registerQuick">
         <group>User</group>
@@ -78,9 +84,5 @@
         <action>delete</action>
     </url>
 
-    <url name="productInfo">
-        <group>product</group>
-        <module>product</module>
-        <action>info</action>
-    </url>
+
 </interface>

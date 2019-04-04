@@ -1,3 +1,4 @@
+import json
 import os
 import readConfig as readConfig
 import logging
@@ -5,6 +6,8 @@ from datetime import datetime
 import threading
 
 localReadConfig = readConfig.ReadConfig()
+
+
 
 
 class Log:
@@ -108,8 +111,27 @@ class MyLog:
         return MyLog.log
 
 
+
+class LogUtil:
+    @staticmethod
+    def debug(msg):
+        log = MyLog.get_log()
+        logger = log.get_logger()
+        logger.debug(msg)
+
+    @staticmethod
+    def info(msg):
+        log = MyLog.get_log()
+        logger = log.get_logger()
+        logger.info(msg)
+    @staticmethod
+    def info_jsonformat(msg):
+        log = MyLog.get_log()
+        logger = log.get_logger()
+        logger.info(json.dumps(msg, ensure_ascii=False,indent=4))
+
+
+
 if __name__ == "__main__":
-    log = MyLog.get_log()
-    logger = log.get_logger()
-    logger.debug("test debug")
-    logger.info("test info")
+    LogUtil.debug("test debug")
+    LogUtil.info("test info")
